@@ -2,10 +2,10 @@ package graph
 
 type AdjacencyMatrixUnweightedGraph struct {
 	Vertexes []string
-	Edges [][]string
+	Edges    [][]string
 }
 
-func (am *AdjacencyMatrixUnweightedGraph) Graph()  {
+func (am *AdjacencyMatrixUnweightedGraph) Graph() {
 	ag := asciiGraph{
 		Title: "Adjacency Matrix Graph",
 	}

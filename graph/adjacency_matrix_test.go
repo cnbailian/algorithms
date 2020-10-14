@@ -8,7 +8,7 @@ import (
 func getAdjacencyMatrixUnweightedUndirectedGraph() AdjacencyMatrixUnweightedGraph {
 	am := AdjacencyMatrixUnweightedGraph{
 		Vertexes: []string{"v0", "v1", "v2", "v3"},
-		Edges:    [][]string{
+		Edges: [][]string{
 			{"0", "1", "1", "0"},
 			{"1", "0", "0", "1"},
 			{"1", "0", "0", "1"},
@@ -44,7 +44,7 @@ func TestAdjacencyMatrixUnweightedGraph_GetVertexDegree(t *testing.T) {
 
 func TestAdjacencyMatrixUnweightedGraph_GetEdge(t *testing.T) {
 	am := getAdjacencyMatrixUnweightedUndirectedGraph()
-	var edges = []struct{
+	var edges = []struct {
 		vertexes [2]int
 		expected bool
 	}{
@@ -62,4 +62,3 @@ func TestAdjacencyMatrixUnweightedGraph_GetEdge(t *testing.T) {
 		}
 	}
 }
-

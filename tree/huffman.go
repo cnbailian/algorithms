@@ -11,7 +11,7 @@ type HuffmanTree struct {
 type HuffmanNode struct {
 	Value string
 	Count int
-	Left *HuffmanNode
+	Left  *HuffmanNode
 	Right *HuffmanNode
 }
 
@@ -50,7 +50,7 @@ func HuffmanNodesSort(nodes SortHuffmanNodes) *HuffmanNode {
 	if nodes.Len() > 1 {
 		newNodes := append(nodes[2:], &HuffmanNode{
 			Count: nodes[0].Count + nodes[1].Count,
-			Left: nodes[0],
+			Left:  nodes[0],
 			Right: nodes[1],
 		})
 		return HuffmanNodesSort(newNodes)
@@ -79,13 +79,13 @@ func getSortHuffmanNodesByText(text string) SortHuffmanNodes {
 
 type HuffmanCodeTable map[string]string
 
-func TraverseHuffmanTree(node *HuffmanNode, code string, table HuffmanCodeTable)  {
+func TraverseHuffmanTree(node *HuffmanNode, code string, table HuffmanCodeTable) {
 	if node == nil {
 		return
 	}
 	if node.Value != "" {
 		table[node.Value] = code
 	}
-	TraverseHuffmanTree(node.Left, code + "0", table)
-	TraverseHuffmanTree(node.Right, code + "1", table)
+	TraverseHuffmanTree(node.Left, code+"0", table)
+	TraverseHuffmanTree(node.Right, code+"1", table)
 }
