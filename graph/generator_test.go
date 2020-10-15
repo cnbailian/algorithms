@@ -5,9 +5,7 @@ import (
 )
 
 func getAsciiGraph() *asciiGraph {
-	ag := &asciiGraph{Title: "test"}
-	ag.init()
-	return ag
+	return NewAsciiGraph("test")
 }
 
 func TestAsciiGraph_AddCollectionRow(t *testing.T) {
@@ -17,6 +15,7 @@ func TestAsciiGraph_AddCollectionRow(t *testing.T) {
 |  
 |  collection: collection
 |  [a, b, c]
+
 `
 	if ag.result() != expected {
 		t.Fail()
@@ -36,6 +35,7 @@ func TestAsciiGraph_AddTableRows(t *testing.T) {
 |  0 1 1 
 |  1 0 1 
 |  1 1 0 
+
 `
 	if ag.result() != expected {
 		t.Fail()

@@ -7,12 +7,12 @@ type asciiGraph struct {
 	Table [][]string
 }
 
-func (a *asciiGraph) init() {
-	if len(a.Table) > 0 {
-		a.Table[0] = []string{"error: you must first call the init func"}
-		return
+func NewAsciiGraph(title string) *asciiGraph {
+	a := &asciiGraph{
+		Title: title,
 	}
 	a.Table = append(a.Table, []string{a.Title})
+	return a
 }
 
 func (a *asciiGraph) AddCollectionRow(name string, col []string) {
@@ -47,6 +47,7 @@ func (a *asciiGraph) result() (res string) {
 		}
 		res += "\n"
 	}
+	res += "\n"
 	return
 }
 
