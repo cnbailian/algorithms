@@ -46,7 +46,8 @@ func (q *queue) Pop() string {
 	return el
 }
 
-func BFSAdjacencyTable(graph AdjacencyTable, root string, end string) bool {
+// 只处理有向无环图（DAG）
+func BFSAdjacencyTable(graph AdjacencyTableUnweightedGraph, root string, end string) bool {
 	queue := newQueue()
 	if _, ok := graph[root]; !ok {
 		return false

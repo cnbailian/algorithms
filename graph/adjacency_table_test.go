@@ -18,7 +18,7 @@ package graph
 
 import "testing"
 
-var at = AdjacencyTable{
+var at = AdjacencyTableUnweightedGraph{
 	"you":    []string{"alice", "bob", "claire"},
 	"bob":    []string{"anuj", "peggy"},
 	"alice":  []string{"peggy"},
@@ -29,11 +29,11 @@ var at = AdjacencyTable{
 	"jonny":  []string{},
 }
 
-func TestAdjacencyTable_Graph(t *testing.T) {
+func TestAdjacencyTableUnweightedGraph_Graph(t *testing.T) {
 	at.Graph()
 }
 
-func TestAdjacencyTable_GetVertexDegree(t *testing.T) {
+func TestAdjacencyTableUnweightedGraph_GetVertexDegree(t *testing.T) {
 	var degrees = []struct {
 		vertex   string
 		expected int
@@ -56,7 +56,7 @@ func TestAdjacencyTable_GetVertexDegree(t *testing.T) {
 	}
 }
 
-func TestAdjacencyTable_GetEdge(t *testing.T) {
+func TestAdjacencyTableUnweightedGraph_GetEdge(t *testing.T) {
 	var edges = []struct {
 		vertexes [2]string
 		expected bool

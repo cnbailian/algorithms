@@ -1,5 +1,6 @@
 package graph
 
+// 邻接矩阵图
 type AdjacencyMatrixUnweightedGraph struct {
 	Vertexes []string
 	Edges    [][]string

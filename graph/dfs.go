@@ -16,7 +16,8 @@ limitations under the License.
 
 package graph
 
-func DFSAdjacencyTable(graph AdjacencyTable, root string, end string) bool {
+// 只处理有向无环图（DAG）
+func DFSAdjacencyTable(graph AdjacencyTableUnweightedGraph, root string, end string) bool {
 	if _, ok := graph[root]; !ok {
 		return false
 	}

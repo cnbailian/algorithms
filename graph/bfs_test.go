@@ -37,6 +37,7 @@ func TestBFSAdjacencyTable(t *testing.T) {
 	}
 }
 
+// 不是随机图，所以测试数据仅供参考
 func BenchmarkBFSAdjacencyTable(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		BFSAdjacencyTable(at, "you", "thom")

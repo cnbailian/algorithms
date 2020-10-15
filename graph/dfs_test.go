@@ -37,6 +37,7 @@ func TestDFSAdjacencyTable(t *testing.T) {
 	}
 }
 
+// 不是随机图，所以测试数据仅供参考
 func BenchmarkDFSAdjacencyTable(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		DFSAdjacencyTable(at, "you", "thom")

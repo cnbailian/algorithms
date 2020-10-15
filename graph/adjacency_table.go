@@ -16,9 +16,10 @@ limitations under the License.
 
 package graph
 
-type AdjacencyTable map[string][]string
+// 邻接表
+type AdjacencyTableUnweightedGraph map[string][]string
 
-func (at AdjacencyTable) Graph() {
+func (at AdjacencyTableUnweightedGraph) Graph() {
 	ag := NewAsciiGraph("Adjacency Table Graph")
 	var vertexes []string
 	for vertex := range at {
@@ -42,7 +43,7 @@ func (at AdjacencyTable) Graph() {
 	ag.Print()
 }
 
-func (at AdjacencyTable) GetVertexDegree(vertex string) int {
+func (at AdjacencyTableUnweightedGraph) GetVertexDegree(vertex string) int {
 	vertexes, ok := at[vertex]
 	if !ok {
 		return 0
@@ -50,8 +51,8 @@ func (at AdjacencyTable) GetVertexDegree(vertex string) int {
 	return len(vertexes)
 }
 
-// directed edge
-func (at AdjacencyTable) GetEdge(v, j string) bool {
+// 有向边
+func (at AdjacencyTableUnweightedGraph) GetEdge(v, j string) bool {
 	vertexes, ok := at[v]
 	if !ok {
 		return false
