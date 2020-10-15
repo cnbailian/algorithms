@@ -6,10 +6,7 @@ type AdjacencyMatrixUnweightedGraph struct {
 }
 
 func (am *AdjacencyMatrixUnweightedGraph) Graph() {
-	ag := asciiGraph{
-		Title: "Adjacency Matrix Graph",
-	}
-	ag.init()
+	ag := NewAsciiGraph("Adjacency Matrix Graph")
 	ag.AddCollectionRow("vertex", am.Vertexes)
 	ag.AddTableRows("edge", am.Edges)
 	ag.Print()
