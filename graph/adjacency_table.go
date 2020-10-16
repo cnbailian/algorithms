@@ -16,6 +16,8 @@ limitations under the License.
 
 package graph
 
+import "strconv"
+
 // 邻接表
 type AdjacencyTableUnweightedGraph map[string][]string
 
@@ -63,4 +65,52 @@ func (at AdjacencyTableUnweightedGraph) GetEdge(v, j string) bool {
 		}
 	}
 	return false
+}
+
+type AdjacencyTableWeightedGraph map[string]map[string]int
+
+func (atw AdjacencyTableWeightedGraph) Graph() {
+	ag := NewAsciiGraph("Adjacency Table Weighted Graph")
+	var vertexes []string
+	for vertex := range atw {
+		vertexes = append(vertexes, vertex)
+	}
+	ag.AddCollectionRow("vertex", vertexes)
+	edges := make([][]string, len(vertexes))
+	for i, vertex := range vertexes {
+		adjacentVertexes := atw[vertex]
+		edges[i] = make([]string, len(vertexes))
+		for j, v := range vertexes {
+			edges[i][j] = "0"
+			for av, weight := range adjacentVertexes {
+				if v == av {
+					edges[i][j] = strconv.Itoa(weight)
+				}
+			}
+		}
+	}
+	ag.AddTableRows("edge", edges)
+	ag.Print()
+}
+
+func (atw AdjacencyTableWeightedGraph) GetVertexDegree(vertex string) int {
+	vertexes, ok := atw[vertex]
+	if !ok {
+		return 0
+	}
+	return len(vertexes)
+}
+
+// 0 为不可达
+func (atw AdjacencyTableWeightedGraph) GetEdgeWeight(v, j string) int {
+	vertexes, ok := atw[v]
+	if !ok {
+		return 0
+	}
+	for vertex, weight := range vertexes {
+		if vertex == j {
+			return weight
+		}
+	}
+	return 0
 }

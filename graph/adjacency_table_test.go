@@ -74,3 +74,56 @@ func TestAdjacencyTableUnweightedGraph_GetEdge(t *testing.T) {
 		}
 	}
 }
+
+var atw = AdjacencyTableWeightedGraph{
+	"start": map[string]int{
+		"A": 6, "B": 2,
+	},
+	"A": map[string]int{
+		"fin": 1,
+	},
+	"B": map[string]int{
+		"A": 3, "fin": 5,
+	},
+	"fin": map[string]int{},
+}
+
+func TestAdjacencyTableWeightedGraph_Graph(t *testing.T) {
+	atw.Graph()
+}
+
+func TestAdjacencyTableWeightedGraph_GetVertexDegree(t *testing.T) {
+	var degrees = []struct {
+		vertex   string
+		expected int
+	}{
+		{"start", 2},
+		{"A", 1},
+		{"B", 2},
+		{"fin", 0},
+	}
+	for _, degree := range degrees {
+		result := atw.GetVertexDegree(degree.vertex)
+		if result != degree.expected {
+			t.Errorf("vertex: %s, result: %d, expected: %d", degree.vertex, result, degree.expected)
+		}
+	}
+}
+
+func TestAdjacencyTableWeightedGraph_GetEdge(t *testing.T) {
+	var edges = []struct {
+		vertexes [2]string
+		weight   int
+	}{
+		{[2]string{"start", "A"}, 6},
+		{[2]string{"start", "fin"}, 0},
+		{[2]string{"A", "B"}, 0},
+		{[2]string{"B", "A"}, 3},
+	}
+	for _, edge := range edges {
+		result := atw.GetEdgeWeight(edge.vertexes[0], edge.vertexes[1])
+		if result != edge.weight {
+			t.Errorf("vertexes: %v, result: %d, expected: %d", edge.vertexes, result, edge.weight)
+		}
+	}
+}

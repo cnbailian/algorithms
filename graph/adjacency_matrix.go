@@ -46,3 +46,9 @@ func (am *AdjacencyMatrixUnweightedGraph) IsSimpleCycle() bool {
 func (am *AdjacencyMatrixUnweightedGraph) IsConnectedGraph() bool {
 	return false
 }
+
+// 加权邻接矩阵图 边值为权重
+type AdjacencyMatrixWeightGraph struct {
+	Vertexes []string
+	Edges    [][]float64
+}
