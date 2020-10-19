@@ -69,32 +69,12 @@ func equalPath(path, compared []string) bool {
 	return true
 }
 
-var amw = &AdjacencyMatrixWeightGraph{
-	Vertexes: []string{"start", "A", "B", "fin"},
-	Edges: [][]float64{
-		{0, 6, 2, 0},
-		{0, 0, 0, 1},
-		{0, 3, 0, 5},
-		{0, 0, 0, 0},
-	},
-}
-
-func TestDijkstraAdjacencyMatrix(t *testing.T) {
-	weights := DijkstraAdjacencyMatrix(amw, 0)
-	expected := []float64{0, 5, 2, 6}
-	if !equalWeights(weights, expected) {
-		t.Errorf("graph: %v, weights: %v, expected: %v", amw.Vertexes, weights, expected)
+func TestNetworkDelayTime(t *testing.T) {
+	if result := networkDelayTime([][]int{
+		{2, 1, 1},
+		{2, 3, 1},
+		{3, 4, 1},
+	}, 4, 2); result != 2 {
+		t.Errorf("result: %d, expected: %d", result, 2)
 	}
-}
-
-func equalWeights(weights, compared []float64) bool {
-	if len(weights) != len(compared) {
-		return false
-	}
-	for i, s := range weights {
-		if s != compared[i] {
-			return false
-		}
-	}
-	return true
 }

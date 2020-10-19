@@ -91,54 +91,151 @@ func inProcessed(value string, processed []string) bool {
 	return false
 }
 
-// My
-func DijkstraAdjacencyMatrix(graph *AdjacencyMatrixWeightGraph, start int) (paths []float64) {
-	if graph == nil || len(graph.Vertexes) < 1 || len(graph.Vertexes) != len(graph.Edges) {
-		return nil
+// 力扣 734.网络延迟事件
+// 所有的边 times[i] = (u, v, w) 都有 1 <= u, v <= N 且 0 <= w <= 100。
+// times[i] = (u, v, w)，其中 u 是源节点，v 是目标节点， w 是一个信号从源节点传递到目标节点的时间。
+// 有 N 个网络节点，标记为 1 到 N。 现在，我们从某个节点 K 发出一个信号。需要多久才能使所有节点都收到信号？如果不能使所有节点收到信号，返回 -1。
+func networkDelayTime(times [][]int, N int, K int) int {
+	var maxWeight = 101
+
+	// 邻接表
+	table := map[int]map[int]int{}
+	for i := 1; i <= N; i++ {
+		table[i] = nil
+	}
+	for _, time := range times {
+		u, v, w := time[0], time[1], time[2]
+		if table[u] == nil {
+			table[u] = make(map[int]int)
+		}
+		table[u][v] = w
 	}
 
-	costs := make([]float64, len(graph.Vertexes))
-	for i := range graph.Vertexes {
-		costs[i] = math.Inf(1)
-		if i == start {
-			costs[i] = 0
+	// 权重表
+	costs := map[int]int{}
+	for u := range table {
+		// 默认不可达
+		costs[u] = maxWeight
+		if u == K {
+			costs[u] = 0
 		}
 	}
-	var processed []int
+	// 重复节点
+	processed := []int{K}
 
-	var node = start
-	for node >= 0 {
-		cost := costs[node]
-		for vertex, weight := range graph.Edges[node] {
-			if weight == 0 {
-				continue
-			}
-			newCost := cost + weight
-			if newCost < costs[vertex] {
-				costs[vertex] = newCost
+	for K >= 0 {
+		cost := costs[K]
+		// 更新权重表
+		for v, w := range table[K] {
+			newCost := cost + w
+			if costs[v] == maxWeight || costs[v] > newCost {
+				costs[v] = newCost
 			}
 		}
-		processed = append(processed, node)
+		processed = append(processed, K)
 
-		// find lowest cost vertex
-		lowestCost := math.Inf(1)
-		lowestVertex := -1
-		for i, v := range costs {
-			if v < lowestCost && !inProcessedVertex(i, processed) {
-				lowestVertex = i
+		// 选择相邻节点中下一个最短节点
+		lowestCost := maxWeight
+		K = -1
+		for v, w := range costs {
+			if w < lowestCost && !inProcessedNode(v, processed) {
+				lowestCost = w
+				K = v
 			}
 		}
-		node = lowestVertex
 	}
 
-	return costs
+	max := -1
+	for _, w := range costs {
+		if w == maxWeight {
+			return -1
+		}
+		if w > max {
+			max = w
+		}
+	}
+
+	return max
 }
 
-func inProcessedVertex(vertex int, processed []int) bool {
+func inProcessedNode(vertex int, processed []int) bool {
 	for _, v := range processed {
 		if v == vertex {
 			return true
 		}
 	}
 	return false
+}
+
+// 邻接矩阵实现
+func networkDelayTimeMatrix(times [][]int, N int, K int) int {
+	var maxWeight = 101
+
+	// 邻接矩阵
+	var matrix = make([][]int, N+1)
+	for _, time := range times {
+		u, v, w := time[0], time[1], time[2]
+		if w == 0 {
+			// 避免权重与默认值冲突
+			w = maxWeight
+		}
+		if matrix[u] == nil {
+			matrix[u] = make([]int, N+1)
+		}
+		matrix[u][v] = w
+	}
+
+	// 权重表
+	costs := map[int]int{}
+	for u := range matrix {
+		if u == 0 {
+			continue
+		}
+		costs[u] = maxWeight
+		if u == K {
+			costs[u] = 0
+		}
+	}
+	// 重复记录
+	processed := []int{K}
+
+	for K >= 0 {
+		// 更新权重表
+		cost := costs[K]
+		for v, w := range matrix[K] {
+			if w == 0 {
+				continue
+			}
+			if w == maxWeight {
+				w = 0
+			}
+			newCost := cost + w
+			if costs[v] == maxWeight || costs[v] > newCost {
+				costs[v] = newCost
+			}
+		}
+		processed = append(processed, K)
+
+		// 下一个最短节点
+		lowestCost := maxWeight
+		K = -1
+		for v, w := range costs {
+			if w < lowestCost && !inProcessedNode(v, processed) {
+				lowestCost = w
+				K = v
+			}
+		}
+	}
+
+	max := -1
+	for _, w := range costs {
+		if w == maxWeight {
+			return -1
+		}
+		if w > max {
+			max = w
+		}
+	}
+
+	return max
 }
