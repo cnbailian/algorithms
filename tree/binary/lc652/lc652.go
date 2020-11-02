@@ -70,7 +70,8 @@ func findDuplicateSubtrees(root *TreeNode) []*TreeNode {
 	return result
 }
 
-// 按照后序格式序列化，但并没有反序列化，因为没有中序遍历不能反向构建出树
+// 按照后序格式序列化
+// 如果有空指针信息，可以根据序列化结果进行反序列化
 func serialize(left, right string, val int) string {
 	return fmt.Sprintf("%s, %s, %d", left, right, val)
 }

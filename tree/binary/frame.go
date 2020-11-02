@@ -33,3 +33,19 @@ func Traverse(root *TreeNode) {
 	Traverse(root.Right)
 	// 后序遍历
 }
+
+func BFS(root *TreeNode) {
+	queue := []*TreeNode{root}
+	for len(queue) > 0 {
+		// pop
+		cur := queue[0]
+		queue = queue[1:]
+
+		if cur.Left != nil {
+			queue = append(queue, cur.Left)
+		}
+		if cur.Right != nil {
+			queue = append(queue, cur.Right)
+		}
+	}
+}
