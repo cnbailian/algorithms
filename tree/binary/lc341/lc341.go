@@ -74,3 +74,31 @@ func (this *NestedIterator) HasNext() bool {
 	this.Data = append(next.GetList(), this.Data[1:]...)
 	return this.HasNext()
 }
+
+// N 叉树解法
+// N 叉树标准框架，叶节点放入数组，树节点递归
+func Tree(nestedList []*NestedInteger) *NestedIterator {
+	res := &NestedIterator{}
+	var traverse = func(nestedList []*NestedInteger) {}
+	traverse = func(nestedList []*NestedInteger) {
+		for _, integer := range nestedList {
+			if integer.IsInteger() {
+				res.Data = append(res.Data, integer)
+				continue
+			}
+			traverse(integer.GetList())
+		}
+	}
+	traverse(nestedList)
+	return res
+}
+
+func (this *NestedIterator) Next() int {
+	res := this.Data[0].GetInteger()
+	this.Data = this.Data[1:]
+	return res
+}
+
+func (this *NestedIterator) HasNext() bool {
+	return len(this.Data) > 0
+}
