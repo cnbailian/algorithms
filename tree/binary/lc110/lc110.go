@@ -57,7 +57,7 @@ func height(node *TreeNode) float64 {
 
 // 自底向上计算最大深度，遇到非平衡树直接返回 -1 作为依据向上响应
 func isBalanced2(root *TreeNode) bool {
-	postorder := func(root *TreeNode) float64 { return 0 }
+	var postorder func(root *TreeNode) float64
 	postorder = func(root *TreeNode) float64 {
 		if root == nil {
 			return 0

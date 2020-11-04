@@ -34,7 +34,7 @@ type TreeNode struct {
 // 94. 二叉树的中序遍历
 // 递归很简单，不符合 medium 难度
 func inorderTraversal(root *TreeNode) (res []int) {
-	inorder := func(root *TreeNode) {}
+	var inorder func(root *TreeNode)
 	inorder = func(root *TreeNode) {
 		if root == nil {
 			return
