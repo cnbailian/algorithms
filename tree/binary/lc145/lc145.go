@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package lc144
+package lc145
 
 /**
  * Definition for a binary tree node.
@@ -31,19 +31,19 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// 144. 二叉树的前序遍历
-func preorderTraversal(root *TreeNode) (vals []int) {
-	var preorder func(*TreeNode)
-	preorder = func(root *TreeNode) {
+// 144. 二叉树的后序遍历
+func postorderTraversal(root *TreeNode) (res []int) {
+	var postorder func(*TreeNode)
+	postorder = func(root *TreeNode) {
 		if root == nil {
 			return
 		}
-		vals = append(vals, root.Val)
-		preorder(root.Left)
-		preorder(root.Right)
+		postorder(root.Left)
+		postorder(root.Right)
+		res = append(res, root.Val)
 	}
-	preorder(root)
-	return vals
+	postorder(root)
+	return
 }
 
 // 利用栈迭代
@@ -65,21 +65,28 @@ func (s *stack) Len() int {
 	return len(s.Data)
 }
 
-// 前序遍历：根、左、右
-func preorderTraversalStack(root *TreeNode) (res []int) {
+// 后序遍历：左、右、根
+func postorderTraversalStack(root *TreeNode) (res []int) {
 	stack := stack{}
-	// 前序遍历从根开始，所以直接放入
-	stack.Add(root)
-	for stack.Len() > 0 {
-		// 出栈，执行前序遍历逻辑
-		root = stack.Pop()
-		if root == nil {
-			continue
+	var prev *TreeNode
+	for stack.Len() > 0 || root != nil {
+		// 先将左侧入栈，相当于 postorder(root.Left)
+		for root != nil {
+			stack.Add(root)
+			root = root.Left
 		}
-		res = append(res, root.Val)
-		// 因为栈先入后出的特性，这里要先放入 right，才能正确的执行前序遍历 根、左、右的顺序
-		stack.Add(root.Right)
-		stack.Add(root.Left)
+		// 出栈
+		node := stack.Pop()
+		// 因为顺序是左右根，如果右侧有值，则要重新入栈，并将右侧也入栈，相当于 postorder(root.Right)
+		// 右侧无值或右侧值已出栈，则执行出栈逻辑
+		if node.Right == nil || node.Right == prev {
+			res = append(res, node.Val)
+			prev = node
+			root = nil
+		} else {
+			stack.Add(node)
+			root = node.Right
+		}
 	}
 	return
 }

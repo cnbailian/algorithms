@@ -66,6 +66,7 @@ func (s *stack) Len() int {
 	return len(s.Data)
 }
 
+// 中序遍历：左、根、右
 func inorderTraversalStack(root *TreeNode) (res []int) {
 	stack := stack{}
 	for stack.Len() > 0 || root != nil {
