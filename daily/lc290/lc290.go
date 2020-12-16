@@ -15,3 +15,31 @@ limitations under the License.
 */
 
 package lc290
+
+import "strings"
+
+// 290. 单词规律
+func wordPattern(pattern string, s string) bool {
+	words := strings.Split(s, " ")
+	if len(pattern) != len(words) {
+		return false
+	}
+	m1 := map[string]byte{}
+	m2 := map[byte]string{}
+	for i, word := range words {
+		if p, ok := m1[word]; ok {
+			if p != pattern[i] {
+				return false
+			}
+			continue
+		}
+		if w, ok := m2[pattern[i]]; ok {
+			if w != word {
+				return false
+			}
+		}
+		m1[word] = pattern[i]
+		m2[pattern[i]] = word
+	}
+	return true
+}
