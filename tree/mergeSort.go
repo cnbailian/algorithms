@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package binary
+package tree
 
 // 归并排序的逻辑，若要对 nums[lo..hi] 进行排序
 // 我们先对 nums[lo..mid] 排序，再对 nums[mid+1..hi] 排序
