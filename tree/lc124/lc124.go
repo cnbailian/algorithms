@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package lc687
+package lc124
 
 /**
  * Definition for a binary tree node.
@@ -31,29 +31,26 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-// 687. 最长同值路径
-// 前置简单题：543，本题多了"同值"的要求，也就是需要父节点的判断（f == root.val）和 path 的剪枝（else{ return 0 }）
-// 后置困难题：124
-func longestUnivaluePath(root *TreeNode) int {
-	var res int
+// 124. 二叉树中的最大路径和
+// 相比 687，少了同值的要求，变为计算路径上所有节点值的总和
+// 但因为有负数的存在，所以还要某种剪枝（max(traverse(root.Left), 0)）
+// 配不上 hard！
+func maxPathSum(root *TreeNode) int {
 	if root == nil {
-		return res
+		return 0
 	}
-	var traverse func(root *TreeNode, f int, path int) int
-	traverse = func(root *TreeNode, f int, path int) int {
+	res := root.Val
+	var traverse func(root *TreeNode) int
+	traverse = func(root *TreeNode) int {
 		if root == nil {
 			return 0
 		}
-		l := traverse(root.Left, root.Val, path)
-		r := traverse(root.Right, root.Val, path)
-		res = max(l+r, res)
-		if f == root.Val {
-			return max(l, r) + 1
-		} else {
-			return 0
-		}
+		l := max(traverse(root.Left), 0)
+		r := max(traverse(root.Right), 0)
+		res = max(l+r+root.Val, res)
+		return max(l, r) + root.Val
 	}
-	traverse(root, -1, 0)
+	traverse(root)
 	return res
 }
 
